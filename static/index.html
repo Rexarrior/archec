@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма и кнопка</title>
+</head>
+<body>
+
+<form id="myForm">
+    <label for="textInput">Введите текст:</label><br>
+    <textarea type="text" id="textInput" name="textInput"></textarea>><br><br>
+    <button type="button" id="submitButton">Нажмите меня</button>
+</form>
+
+<script>
+        // Обработчик нажатия на кнопку
+        document.getElementById('submitButton').addEventListener('click', function() {
+        // Здесь можно добавить код для обработки нажатия на кнопку
+        // Например, можно получить значение из текстового поля
+        var enteredText = document.getElementById('textInput').value;
+        
+        // URL, к которому будет выполняться запрос
+        const apiUrl = '/process_text/';
+
+        // Текст, который вы хотите отправить на сервер
+
+        // Выполнение GET-запроса с использованием Fetch API
+        fetch(apiUrl + '?text=' + encodeURIComponent(enteredText))
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сети: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.open(data['url'], '_blank');
+            })
+            .catch(error => {
+                console.error('Произошла ошибка:', error);
+            });
+    });
+</script>
+
+</body>
+</html>
